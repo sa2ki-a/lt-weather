@@ -1,0 +1,34 @@
+.location-card {
+  position: relative;
+  touch-action: pan-y;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+
+.card-list-sorting {
+  user-select: none;
+}
+
+.location-card-dragging {
+  z-index: 10;
+  transform: scale(1.018) !important;
+  border-color: #68ddb099;
+  cursor: grabbing;
+  box-shadow: 0 18px 38px #0009, 0 0 0 2px #68ddb02e;
+  touch-action: none;
+}
+
+.location-card-dragging::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: -8px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--green);
+  box-shadow: 0 0 10px #68ddb080;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .location-card { transition: none; }
+}

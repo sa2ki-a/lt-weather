@@ -21,7 +21,11 @@ export default function App() {
     saveLocations(next)
     setLocations(next)
   }
+  const reorder = (next: Location[]) => {
+    saveLocations(next)
+    setLocations(next)
+  }
   if (view.page === 'add') return <AddLocationPage onBack={() => setView({ page: 'home' })} onSave={save}/>
   if (view.page === 'detail') return <DetailPage location={view.location} onBack={() => setView({ page: 'home' })}/>
-  return <HomePage locations={locations} onOpen={location => setView({ page: 'detail', location })} onAdd={() => setView({ page: 'add' })} onDelete={remove}/>
+  return <HomePage locations={locations} onOpen={location => setView({ page: 'detail', location })} onAdd={() => setView({ page: 'add' })} onDelete={remove} onReorder={reorder}/>
 }
