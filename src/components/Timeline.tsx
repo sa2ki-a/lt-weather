@@ -11,6 +11,14 @@ function Row({ label, hint, children, className = '' }: { label: string; hint?: 
 function cells(values: React.ReactNode[], classes?: (index: number) => string) { return values.map((value, index) => <div className={`timeline-cell ${classes?.(index) ?? ''}`} key={index}>{value}</div>) }
 function humidityClass(value: number) { return value >= 80 ? 'condition-high' : value >= 60 ? 'condition-good' : 'condition-low' }
 function windClass(value: number) { return value > 5 ? 'condition-alert' : value > 2 ? 'condition-caution' : 'condition-good' }
+const WIND_DIRECTIONS = ['北', '北北東', '北東', '東北東', '東', '東南東', '南東', '南南東', '南', '南南西', '南西', '西南西', '西', '西北西', '北西', '北北西']
+function windDirectionLabel(degrees: number) { return WIND_DIRECTIONS[Math.round(((degrees % 360) + 360) % 360 / 22.5) % 16] }
+function Wind({ speed, direction }: { speed: number; direction: number }) {
+  const from = windDirectionLabel(direction)
+  // Open-Meteo reports where wind comes from. The arrow consistently points where it blows to.
+  const arrowRotation = ((direction % 360) + 540) % 360
+  return <><strong>{speed.toFixed(1)}</strong><small>m/s</small><span className="wind-direction" aria-label={`${from}から吹く風。矢印は風が吹いていく向き`}><span>{from}</span><i aria-hidden="true" style={{ transform: `rotate(${arrowRotation}deg)` }}>↑</i></span></>
+}
 
 export function Timeline({ hours, astronomy, timezone, latitude }: { hours: HourlyWeather[]; astronomy: AstronomyData; timezone: string; latitude: number }) {
   if (!hours.length) return <div className="state">この夜の予報データはありません。</div>
@@ -30,7 +38,7 @@ export function Timeline({ hours, astronomy, timezone, latitude }: { hours: Hour
     <Row label="湿度" className="condition-row">{cells(hours.map(hour => <><strong>{Math.round(hour.humidity)}</strong><small>%</small></>), index => humidityClass(hours[index].humidity))}</Row>
     <Row label="降水量">{cells(hours.map(hour => <><strong>{hour.precipitation.toFixed(1)}</strong><small>mm</small></>))}</Row>
     <Row label="降水確率">{cells(hours.map(hour => <><strong>{Math.round(hour.precipitationProbability)}</strong><small>%</small></>))}</Row>
-    <Row label="風速" className="condition-row">{cells(hours.map(hour => <><strong>{hour.windSpeed.toFixed(1)}</strong><small>m/s</small></>), index => windClass(hours[index].windSpeed))}</Row>
+    <Row label="風速" className="condition-row wind-row">{cells(hours.map(hour => <Wind speed={hour.windSpeed} direction={hour.windDirection} />), index => windClass(hours[index].windSpeed))}</Row>
     <Row label="雲量">{cells(hours.map(hour => <><strong>{Math.round(hour.cloudCover)}</strong><small>%</small></>))}</Row>
     <Row label="月" hint="地平線" className="moon-band-row">{cells(astronomy.moonHours.map(moon => moon.isAbove ? <><MoonPhaseIcon phase={astronomy.phase} latitude={latitude} size={20}/><strong>地平線上</strong></> : <><span className="moon-dot">○</span><strong>地平線下</strong></>), index => astronomy.moonHours[index].isAbove ? 'moon-above' : 'moon-below')}</Row>
   </div></div>
