@@ -1,33 +1,18 @@
 .location-card {
   position: relative;
-  touch-action: pan-y;
   transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
 }
 
-.card-list-sorting {
-  user-select: none;
-}
-
-.location-card-dragging {
-  z-index: 10;
-  transform: scale(1.018) !important;
-  border-color: #68ddb099;
-  cursor: grabbing;
-  box-shadow: 0 18px 38px #0009, 0 0 0 2px #68ddb02e;
-  touch-action: none;
-}
-
-.location-card-dragging::before {
-  content: "";
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  top: -8px;
-  height: 3px;
-  border-radius: 3px;
-  background: var(--green);
-  box-shadow: 0 0 10px #68ddb080;
-}
+.location-card-reordering { cursor: default; border-color: #68ddb066; }
+.location-card-reordering:active { transform: none; }
+.reorder-status { color: var(--green); font-size: .78rem; font-weight: 800; }
+.reorder-header-actions,.location-reorder-buttons { display:flex; align-items:center; gap:8px; }
+.reorder-confirm,.location-reorder-buttons button { width:48px; height:48px; padding:0; border:0; border-radius:50%; background:var(--green); color:#06221a; font-size:1.45rem; font-weight:900; }
+.reorder-cancel { min-height:48px; padding:0 10px; border:0; background:transparent; color:#bac8d2; font-weight:700; }
+.location-reorder-buttons button { background:#192b3e; color:var(--green); }
+.reorder-confirm:focus-visible,.reorder-cancel:focus-visible,.location-reorder-buttons button:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+.location-menu-reorder { color:#eef5f6; }
+.location-menu-reorder:hover,.location-menu-reorder:focus-visible { background:#68ddb018; outline:none; }
 
 @media (prefers-reduced-motion: reduce) {
   .location-card { transition: none; }
