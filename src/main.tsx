@@ -1,0 +1,18 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { registerSW } from 'virtual:pwa-register'
+import App from './App'
+import './styles.css'
+import './timeline.css'
+import './add-location.css'
+import './top-moon.css'
+import './timeline-current.css'
+import './home-current-location.css'
+import './location-menu.css'
+import './ten-day.css'
+import './monthly-moon.css'
+import './monthly-switch.css'
+import './monthly-moon-compact.css'
+import './weather-model.css'
+registerSW({immediate:true})
+ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><App/></React.StrictMode>)
