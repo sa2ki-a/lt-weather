@@ -31,7 +31,7 @@ export function Timeline({ hours, astronomy, timezone, latitude }: { hours: Hour
     return { ...event, lane }
   })
   return <div className="timeline-wrap"><div className="timeline" style={{ '--columns': hours.length, '--cell': `${CELL}px` } as React.CSSProperties}>
-    <div className="astro-event-row"><div className="row-label"><span>天文イベント</span></div><div className="astro-event-track">{visible.map(event => <div className={`astro-event ${event.position > 92 ? 'align-end' : ''}`} key={event.name} style={{ left: `${event.position}%`, color: event.color, top: `${5 + event.lane * 20}px` }}><span>{event.name}<b>{formatZoned(event.date, timezone)}</b></span><i style={{ top: `${57 - event.lane * 20}px` }} /></div>)}</div></div>
+    <div className="astro-event-row"><div className="row-label"><span>月と日</span></div><div className="astro-event-track">{visible.map(event => <div className={`astro-event ${event.position > 92 ? 'align-end' : ''}`} key={event.name} style={{ left: `${event.position}%`, color: event.color, top: `${5 + event.lane * 20}px` }}><span>{event.name}<b>{formatZoned(event.date, timezone)}</b></span><i style={{ top: `${57 - event.lane * 20}px` }} /></div>)}</div></div>
     <Row label="時刻" className="time-row">{cells(hours.map((hour,index) => <><strong>{hourLabel(hour.time, timezone)}</strong>{(index===0||zonedParts(hour.time,timezone).hour===0)&&<small className="date-change">{shortDateLabel(hour.time,timezone)}</small>}</>))}</Row>
     <Row label="天気">{cells(hours.map(hour => <WeatherIcon code={hour.weatherCode} />))}</Row>
     <Row label="気温">{cells(hours.map(hour => <><strong>{Math.round(hour.temperature)}</strong><small>℃</small></>))}</Row>

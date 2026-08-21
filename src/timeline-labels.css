@@ -1,0 +1,27 @@
+.timeline-wrap {
+  --label-width: 96px;
+}
+
+.daily-wrap {
+  --daily-label: 88px;
+}
+
+:is(.row-label, .daily-label) {
+  padding-inline: 9px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .timeline-wrap {
+    --label-width: 72px;
+  }
+
+  .daily-wrap {
+    --daily-label: 72px;
+  }
+
+  :is(.row-label, .daily-label) {
+    padding-inline: 7px;
+    font-size: .68rem;
+  }
+}
