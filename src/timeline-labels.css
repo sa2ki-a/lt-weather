@@ -1,27 +1,39 @@
 .timeline-wrap {
-  --label-width: 96px;
+  --label-width: 84px;
 }
 
 .daily-wrap {
-  --daily-label: 88px;
+  --daily-label: 80px;
+}
+
+.row-label {
+  width: var(--label-width);
+  min-width: var(--label-width);
+  max-width: var(--label-width);
+}
+
+.daily-label {
+  width: var(--daily-label);
+  min-width: var(--daily-label);
+  max-width: var(--daily-label);
 }
 
 :is(.row-label, .daily-label) {
-  padding-inline: 9px;
+  padding-inline: 7px;
   white-space: nowrap;
 }
 
 @media (max-width: 600px) {
   .timeline-wrap {
-    --label-width: 72px;
+    --label-width: 60px;
   }
 
   .daily-wrap {
-    --daily-label: 72px;
+    --daily-label: 60px;
   }
 
   :is(.row-label, .daily-label) {
-    padding-inline: 7px;
+    padding-inline: 5px;
     font-size: .68rem;
   }
 }

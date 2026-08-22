@@ -3,8 +3,6 @@ import { WeatherIcon } from './WeatherIcon'
 import { formatZoned, hourLabel, shortDateLabel, zonedParts } from '../utils/zonedTime'
 import { MoonPhaseIcon } from './MoonPhaseIcon'
 
-const CELL = 74
-
 function Row({ label, hint, children, className = '' }: { label: string; hint?: string; children: React.ReactNode; className?: string }) {
   return <div className={`timeline-row ${className}`}><div className="row-label"><span>{label}</span>{hint && <small>{hint}</small>}</div><div className="row-cells">{children}</div></div>
 }
@@ -30,14 +28,14 @@ export function Timeline({ hours, astronomy, timezone, latitude }: { hours: Hour
     laneEnds[lane] = event.position
     return { ...event, lane }
   })
-  return <div className="timeline-wrap"><div className="timeline" style={{ '--columns': hours.length, '--cell': `${CELL}px` } as React.CSSProperties}>
+  return <div className="timeline-wrap"><div className="timeline" style={{ '--columns': hours.length } as React.CSSProperties}>
     <div className="astro-event-row"><div className="row-label"><span>月と日</span></div><div className="astro-event-track">{visible.map(event => <div className={`astro-event ${event.position > 92 ? 'align-end' : ''}`} key={event.name} style={{ left: `${event.position}%`, color: event.color, top: `${5 + event.lane * 20}px` }}><span>{event.name}<b>{formatZoned(event.date, timezone)}</b></span><i style={{ top: `${57 - event.lane * 20}px` }} /></div>)}</div></div>
     <Row label="時刻" className="time-row">{cells(hours.map((hour,index) => <><strong>{hourLabel(hour.time, timezone)}</strong>{(index===0||zonedParts(hour.time,timezone).hour===0)&&<small className="date-change">{shortDateLabel(hour.time,timezone)}</small>}</>))}</Row>
     <Row label="天気">{cells(hours.map(hour => <WeatherIcon code={hour.weatherCode} />))}</Row>
     <Row label="気温">{cells(hours.map(hour => <><strong>{Math.round(hour.temperature)}</strong><small>℃</small></>))}</Row>
     <Row label="湿度" className="condition-row">{cells(hours.map(hour => <><strong>{Math.round(hour.humidity)}</strong><small>%</small></>), index => humidityClass(hours[index].humidity))}</Row>
     <Row label="降水量">{cells(hours.map(hour => <><strong>{hour.precipitation.toFixed(1)}</strong><small>mm</small></>))}</Row>
-    <Row label="降水確率">{cells(hours.map(hour => <><strong>{Math.round(hour.precipitationProbability)}</strong><small>%</small></>))}</Row>
+    <Row label="降水確率">{cells(hours.map(hour => hour.precipitationProbability===null?<strong aria-label="データなし">—</strong>:<><strong>{Math.round(hour.precipitationProbability)}</strong><small>%</small></>))}</Row>
     <Row label="風速" className="condition-row wind-row">{cells(hours.map(hour => <Wind speed={hour.windSpeed} direction={hour.windDirection} />), index => windClass(hours[index].windSpeed))}</Row>
     <Row label="雲量">{cells(hours.map(hour => <><strong>{Math.round(hour.cloudCover)}</strong><small>%</small></>))}</Row>
     <Row label="月" hint="地平線" className="moon-band-row">{cells(astronomy.moonHours.map(moon => moon.isAbove ? <><MoonPhaseIcon phase={astronomy.phase} latitude={latitude} size={20}/><strong>地平線上</strong></> : <><span className="moon-dot">○</span><strong>地平線下</strong></>), index => astronomy.moonHours[index].isAbove ? 'moon-above' : 'moon-below')}</Row>

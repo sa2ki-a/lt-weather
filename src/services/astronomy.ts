@@ -2,8 +2,7 @@ import SunCalc from 'suncalc'
 import type { AstronomyData, AstronomyEvent } from '../types'
 
 const eventDefinitions = [
-  ['天文薄明開始','nightEnd','#60a5fa'],['航海薄明開始','nauticalDawn','#818cf8'],['市民薄明開始','dawn','#c084fc'],['日の出','sunrise','#f6ad55'],
-  ['日没','sunset','#f6ad55'],['市民薄明終了','dusk','#c084fc'],['航海薄明終了','nauticalDusk','#818cf8'],['天文薄明終了','night','#60a5fa'],
+  ['日没','sunset','#f6ad55'],
 ] as const
 
 function moonCrossings(latitude:number,longitude:number,start:number,end:number):AstronomyEvent[]{
